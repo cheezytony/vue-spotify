@@ -1,0 +1,5 @@
+{
+  "clientId": "10cf49f876184caf9c9bcc9755002a10",
+  "clientSecret": "0a60486e62f44c5db833f095cd021766",
+  "redirectUri": "http://localhost:3000/login"
+}

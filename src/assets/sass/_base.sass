@@ -1,0 +1,238 @@
+$border-radius: 999px
+$border-radius-sm: .5rem
+$border-radius-xs: .25rem
+
+$color-gray-100: #000
+$color-gray-200: #111
+$color-gray-800: #aaa
+$color-gray-900: #fff
+
+$color-green-500: #0c5
+$color-green-600: lighten(#0c5, 5%)
+
+$font-size-logo: 2rem
+$font-size-caption: 1rem
+$font-size-description: .8rem
+$font-size-sm: .75rem
+
+$font-weight-bold: 700
+$font-weight-light: 300
+$font-weight-regular: 400
+$font-weight-medium: 500
+
+$spacing: 2rem
+$spacing-sm: 1rem
+$spacing-xs: .5rem
+
+$transition-duration: 500ms
+
+html,
+body
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif
+  font-size: 1vw
+  line-height: 1.5
+  margin: 0
+  padding: 0
+  user-select: none
+
+a
+  color: inherit
+  text-decoration: none
+
+*
+  box-sizing: border-box
+
+h1,
+h2,
+h3,
+p
+  margin: 0
+
+svg.icon
+  height: 1em
+  width: 1em
+
+.button
+  &__play
+    background: $color-green-500
+    border: none
+    border-radius: $border-radius
+    box-shadow: 0 5px 20px rgba($color-gray-100, .3)
+    color: $color-gray-900
+    cursor: pointer
+    display: inline-grid
+    font-size: 1.5rem
+    height: 3rem
+    place-items: center
+    transition: background-color $transition-duration / 2, opacity $transition-duration, transform $transition-duration / 2
+    width: 3rem
+.app
+  &__content
+    display: flex
+    flex-flow: column
+    @media (min-width: 425px)
+      flex-flow: row
+      overflow: hidden
+      height: 100vh
+  &__sidebar
+    background-color: $color-gray-100
+    color: $color-gray-900
+    display: none
+    flex-flow: column
+    padding: $spacing $spacing * 1.5
+    width: 100%
+    @media (min-width: 425px)
+      display: flex
+      width: 16rem
+    &__section
+      padding-bottom: $spacing
+      &__title
+        color: $color-green-600
+        font-size: $font-size-sm
+        font-weight: $font-weight-bold
+        margin-bottom: $spacing-xs
+        text-transform: uppercase
+    &__brand
+      align-items: center
+      color: $color-green-600
+      display: flex
+      justify-content: center
+      margin-bottom: $spacing-sm * 3
+      &__text
+        font-size: $font-size-logo
+        font-weight: $font-weight-medium
+        margin-left: $spacing-xs
+      &__logo
+        display: inline-flex
+        svg.icon
+          font-size: 4rem
+    &__nav
+      display: flex
+      flex-flow: column
+      list-style: none
+      margin: 0 (-$spacing-sm)
+      padding: 0
+      > li
+        &:not(:last-of-type)
+          margin-bottom: $spacing-xs
+        > a
+          align-items: center
+          border-radius: $border-radius-sm
+          color: $color-gray-800
+          display: flex
+          font-weight: $font-weight-bold
+          font-size: $font-size-sm
+          line-height: 1
+          padding: $spacing-xs $spacing-sm
+          text-transform: uppercase
+          transition: background-color $transition-duration, color $transition-duration
+          > span
+            margin-left: $spacing-xs
+          .icon
+            font-size: 1.9em
+          &:hover
+            background: rgba($color-gray-900, .1)
+            color: $color-gray-900
+          &.active
+            background: rgba($color-green-500, .1)
+            color: $color-green-500
+  &__main
+    background-color: $color-gray-200
+    color: $color-gray-900
+    padding: 1rem
+    width: 100%
+    @media (min-width: 425px)
+      padding: 1rem 2rem
+      width: calc(100% - 16rem)
+  &__header
+    padding: 1rem
+    @media (min-width: 425px)
+      padding: 1rem 2rem
+  &__footer
+    width: 100%
+
+.songs
+  &--grid
+    display: block
+    overflow-x: auto
+    white-space: nowrap
+    margin: 0 -1rem
+    padding: 2rem 1rem
+    @media (min-width: 425px)
+      margin: 0 -2rem
+      padding: 2rem 2rem
+.song
+  position: relative
+  &--grid
+    display: inline-block
+    width: 12rem
+    &:not(:last-of-type)
+      margin-right: $spacing
+    .song
+      &__data
+        background-color: rgba($color-gray-900, .05)
+        backdrop-filter: blur(5px)
+        border-radius: $border-radius-sm
+        cursor: pointer
+        transition: background-color $transition-duration, transform $transition-duration / 2
+        padding: 1rem
+        &:active
+          transform: scale(1.025)
+      &__title
+        font-size: $font-size-caption
+        font-weight: $font-weight-bold
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+        width: 100%
+      &__artist
+        color: $color-gray-800
+        font-size: $font-size-description
+        font-weight: $font-weight-regular
+        margin-bottom: $spacing-sm
+        overflow: hidden
+        text-overflow: ellipsis
+        white-space: nowrap
+        width: 100%
+      &__album__art
+        // background-color: $color-gray-200
+        border-radius: $border-radius-xs
+        margin-bottom: $spacing-sm
+        overflow: hidden
+        padding-top: 100%
+        position: relative
+        width: 100%
+        img
+          height: 100%
+          left: 0
+          position: absolute
+          top: 0
+          width: 100%
+      &__play
+        opacity: 0
+        position: absolute
+        right: $spacing-sm * 2
+        top: 50%
+        transform: translateY(50%)
+    &:hover
+      .song
+        &__data
+          background-color: rgba($color-green-500, .1)
+        &__play
+          opacity: 1
+          transform: translateY(0)
+          &:hover
+            background-color: $color-green-600
+            transform: scale(1.1)
+          &:focus:active
+            transform: scale(1.2)
+
+.mt-auto
+  margin-top: auto
+
+.text-dark
+  color: $color-gray-100
+.text-gray
+  color: $color-gray-800
+.text-light
+  color: $color-gray-900
