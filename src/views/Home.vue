@@ -1,69 +1,91 @@
 <template>
   <div>
-    <template :key="playlist.message" v-for="playlist in playlists">
-      <PlaylistGrid :playlist="playlist" />
+    <template :key="featuredPlaylist.title" v-for="featuredPlaylist in playlists">
+      <FeaturedPlaylistGrid :featured-playlist="featuredPlaylist" />
     </template>
   </div>
 </template>
 
 <script lang="ts">
+import { FeaturedPlaylist, SpotifyCategory, SpotifyItem, SpotifyPaging, SpotifyPlayHistory, SpotifyResponse } from '@/types/spotify';
 import { defineComponent } from 'vue';
 
 type Data = {
-  playlists: unknown[],
+  playlists: FeaturedPlaylist[],
 }
 
 export default defineComponent({
   data() {
     return {
-      playlists: []
+      playlists: [],
     } as Data;
   },
   mounted() {
     document.title = 'Spotify';
-    
-    type SpotifyResponse = {
-      message: string,
-      playlists?: {
-        href: string,
-        items: [],
-        limit: number,
-        next: string | null,
-        offset: number,
-        previous: string | null,
-        total: number,
-      },
-      categories?: {
-        href: string,
-        items: [],
-        limit: number,
-        next: string | null,
-        offset: number,
-        previous: string | null,
-        total: number,
-      }
-    };
-    
-    this.$spotify.getFeaturedPlaylists({
+ 
+    this.$spotify.getMyRecentlyPlayedTracks({
       country: 'NG',
-    }).then((data: SpotifyResponse) => {
-      this.playlists.push(data.playlists);
+    }).then((data: SpotifyPaging) => {
+      this.playlists.push({
+        title: 'Recently Played',
+        playlist: this.transformHistoryTracks(data),
+      });
     }, (response: Response) => {
       console.log(response);
     });
 
-    // this.$spotify.getNewReleases({
-    //   country: 'NG',
-    // }).then((data: SpotifyResponse) => {
-    //   console.log(data);
-    // }, (response: Response) => {
-    //   console.log(response);
-    // });
+    this.$spotify.getFeaturedPlaylists({
+      country: 'NG',
+    }).then((data: SpotifyResponse) => {
+      if (data.playlists) {
+        this.playlists.push({
+          title: 'Editor\s Picks',
+          playlist: data.playlists,
+        });
+      }
+    }, (response: Response) => {
+      console.log(response);
+    });
+
+    this.$spotify.getNewReleases({
+      country: 'NG',
+    }).then((data: SpotifyResponse) => {
+      if (data.albums) {
+        this.playlists.push({
+          title: 'New Releases',
+          playlist: data.albums,
+        });
+      }
+    }, (response: Response) => {
+      console.log(response);
+    });
 
     this.$spotify.getCategories().then((data: SpotifyResponse) => {
-      this.playlists.push(data.categories);
-      console.log(data);
+      if (data.categories) {
+        this.playlists.push({
+          title: 'Genres',
+          playlist: this.transformCategories(data.categories),
+        });
+      }
     });
+  },
+  methods: {
+    transformCategories(categories: SpotifyPaging): SpotifyPaging {
+      return {
+        ...categories,
+        items: categories.items.map((category: SpotifyItem) => {
+          return { ...category, type: 'category' } as SpotifyCategory;
+        }),
+      };
+    },
+    transformHistoryTracks(history: SpotifyPaging): SpotifyPaging {
+      return {
+        ...history,
+        items: history.items.map((playHistory: SpotifyItem) => {
+          return { ...playHistory, type: 'historyTrack' } as SpotifyPlayHistory;
+        }),
+      };
+    }
   }
 });
 </script>

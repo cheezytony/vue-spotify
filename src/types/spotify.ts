@@ -1,3 +1,8 @@
+export type FeaturedPlaylist = {
+  title: string,
+  playlist: SpotifyPaging,
+}
+
 export type SpotifyAlbum = {
   album_type: 'album' | 'single' | 'compilation',
   artists: SpotifyArtist[],
@@ -37,6 +42,14 @@ export type SpotifyArtist = {
   uri: string,
 }
 
+export type SpotifyCategory = {
+  href: string,
+  icons: SpotifyImage[],
+  id: string,
+  name: string,
+  type: 'category',
+};
+
 export type SpotifyCopyright = {
   text: string,
   type: 'C' | 'P',
@@ -74,13 +87,9 @@ export type SpotifyImage = {
   url: string,
 }
 
-export type SpotifyOwner = {
-  name: string
-}
-
 export type SpotifyPaging = {
   href: string,
-  items: unknown[],
+  items: SpotifyItemList,
   limit: number,
   next: string,
   offset: number,
@@ -88,11 +97,36 @@ export type SpotifyPaging = {
   total: number,
 }
 
+export type SpotifyPlayHistory = {
+  context: unknown,
+  played_at: string,
+  track: SpotifyTrack,
+  type: 'historyTrack',
+}
+
+export type SpotifyPlaylist = {
+  collaborative: boolean,
+  description: string,
+  external_urls: SpotifyExternalUrl,
+  followers?: SpotifyFollowers,
+  href: string,
+  id: string,
+  images: SpotifyImage[],
+  name: string,
+  owner: SpotifyPublicUser,
+  public: boolean,
+  snapshot_id: string,
+  tracks: SpotifyTrack[],
+  type: 'playlist',
+  uri: string,
+}
+
 export type SpotifyPlaylistTrack = {
   added_at: string,
   added_by: SpotifyPublicUser,
   is_local: boolean,
   track: SpotifyTrack,
+  type: 'playlistTrack',
 }
 
 export type SpotifyPrivateUser = {
@@ -121,21 +155,10 @@ export type SpotifyPublicUser = {
   uri: string,
 }
 
-export type SpotifyPlaylist = {
-  collaborative: boolean,
-  description: string,
-  external_urls: SpotifyExternalUrl,
-  followers?: SpotifyFollowers,
-  href: string,
-  id: string,
-  images: SpotifyImage[],
-  name: string,
-  owner: SpotifyOwner,
-  public: boolean,
-  snapshot_id: string,
-  tracks: SpotifyTrack[],
-  type: 'playlist',
-  uri: string,
+export type SpotifyResponse = {
+  albums?: SpotifyPaging,
+  playlists?: SpotifyPaging,
+  categories?: SpotifyPaging,
 }
 
 export type SpotifyTrack = {
@@ -164,3 +187,7 @@ export type SpotifyTrack = {
 export type SpotifyTrackRestriction = {
   reason: 'market' | 'product' | 'explicit' | string,
 }
+
+export type SpotifyItem = SpotifyAlbum | SpotifyCategory | SpotifyPlayHistory | SpotifyPlaylist | SpotifyPlaylistTrack | SpotifyTrack;
+
+export type SpotifyItemList = SpotifyItem[];

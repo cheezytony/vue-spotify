@@ -142,6 +142,7 @@ svg.icon
     padding: 1rem
     width: 100%
     @media (min-width: 425px)
+      overflow-y: auto
       padding: 1rem 2rem
       width: calc(100% - 16rem)
   &__header
@@ -151,24 +152,24 @@ svg.icon
   &__footer
     width: 100%
 
-.songs
+.items
   &--grid
     display: block
     overflow-x: auto
-    white-space: nowrap
     margin: 0 -1rem
     padding: 2rem 1rem
+    white-space: nowrap
     @media (min-width: 425px)
       margin: 0 -2rem
       padding: 2rem 2rem
-.song
+.item
   position: relative
   &--grid
     display: inline-block
     width: 12rem
     &:not(:last-of-type)
       margin-right: $spacing
-    .song
+    .item
       &__data
         background-color: rgba($color-gray-900, .05)
         backdrop-filter: blur(5px)
@@ -194,7 +195,7 @@ svg.icon
         text-overflow: ellipsis
         white-space: nowrap
         width: 100%
-      &__album__art
+      &__artwork
         // background-color: $color-gray-200
         border-radius: $border-radius-xs
         margin-bottom: $spacing-sm
@@ -215,7 +216,7 @@ svg.icon
         top: 50%
         transform: translateY(50%)
     &:hover
-      .song
+      .item
         &__data
           background-color: rgba($color-green-500, .1)
         &__play
